@@ -1,4 +1,4 @@
-{% set version = "3.1.0" %}
+{% set version = "3.1.1" %}
 
 package:
   name: graphblas
@@ -6,7 +6,7 @@ package:
 
 source:
   url: http://faculty.cse.tamu.edu/davis/GraphBLAS/GraphBLAS-{{ version }}.tar.gz
-  sha256: 7e7c9042dc037f2355825d6cf2b57b4a03be61414874b38419a574587f66a0b8
+  sha256: 06044169ce1b0016660f4d4511b9cfb377a6c26e807de316a6b130f50f069fe9
 
 build:
   skip: true  # [win]
