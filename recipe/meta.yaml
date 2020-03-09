@@ -1,12 +1,12 @@
-{% set version = "3.1.1" %}
+{% set version = "3.2.0" %}
 
 package:
   name: graphblas
   version: {{ version }}
 
 source:
-  url: http://faculty.cse.tamu.edu/davis/GraphBLAS/GraphBLAS-{{ version }}.tar.gz
-  sha256: 06044169ce1b0016660f4d4511b9cfb377a6c26e807de316a6b130f50f069fe9
+  url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.tar.gz
+  sha256: a024871d053f27b5948c8987460d94ffe3f1672d5e218f04b3edc964284c5705
 
 build:
   skip: true  # [win]
@@ -35,7 +35,7 @@ test:
     - test -f ${PREFIX}/lib/libgraphblas.a
 
 about:
-  home: http://faculty.cse.tamu.edu/davis/GraphBLAS.html
+  home: https://github.com/DrTimothyAldenDavis/GraphBLAS
   license: Apache 2.0
   license_family: Apache
   license_file: Doc/License.txt
