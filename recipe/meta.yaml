@@ -1,4 +1,4 @@
-{% set version = "3.2.2" %}
+{% set version = "3.3.0" %}
 
 package:
   name: graphblas
@@ -6,11 +6,11 @@ package:
 
 source:
   url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.tar.gz
-  sha256: 21a6d3e277ef5a930f93a0208c72197fbe752948e0bbd0e42eedae6d41e88a9e
+  sha256: fed4d253b05b9ba8084247ec01f9b989c7c7d506de445592af1946023ab01bfd
 
 build:
   skip: true  # [win]
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
 
