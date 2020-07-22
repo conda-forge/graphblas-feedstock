@@ -5,7 +5,7 @@ Home: https://github.com/DrTimothyAldenDavis/GraphBLAS
 
 Package license: Apache-2.0
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: SuiteSparse:GraphBLAS is a full implementation of the GraphBLAS standard
 
