@@ -10,7 +10,7 @@ source:
 
 build:
   skip: true  # [win]
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
 
@@ -32,7 +32,7 @@ test:
   commands:
     - test -f ${PREFIX}/include/GraphBLAS.h
     - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}
-    - test -f ${PREFIX}/lib/libgraphblas.a
+    - ! test -f ${PREFIX}/lib/libgraphblas.a
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
