@@ -32,7 +32,6 @@ test:
   commands:
     - test -f ${PREFIX}/include/GraphBLAS.h
     - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}
-    - ! test -f ${PREFIX}/lib/libgraphblas.a
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
