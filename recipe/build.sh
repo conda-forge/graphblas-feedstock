@@ -7,3 +7,5 @@ export CMAKE_OPTIONS="-DCMAKE_INSTALL_PREFIX=${PREFIX} -DCMAKE_INSTALL_LIBDIR=li
 # make SuiteSparse
 make library VERBOSE=1
 make install VERBOSE=1
+# forcibly remove the static library
+rm -f ${PREFIX}/lib/libgraphblas.a
