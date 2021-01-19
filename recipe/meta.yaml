@@ -19,7 +19,7 @@ requirements:
     - {{ compiler('cxx') }}
     - cmake
     - make
-    - m4
+    - m4  # [not win]
   host:
     - openmp  # [linux]
     - llvm-openmp  # [osx]
@@ -29,9 +29,9 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/include/GraphBLAS.h
-    - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}
-    - test ! -e ${PREFIX}/lib/libgraphblas.a
+    - test -f ${PREFIX}/include/GraphBLAS.h  # [not win]
+    - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}  # [not win]
+    - test ! -e ${PREFIX}/lib/libgraphblas.a  # [not win]
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
