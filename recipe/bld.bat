@@ -1,11 +1,14 @@
-setlocal EnableDelayedExpansion
+mkdir build
+cd build
 
-:: make sure CMake install goes in the right place
-SET INSTALL="%PREFIX%"
-SET CMAKE_OPTIONS="-DCMAKE_INSTALL_PREFIX=%PREFIX% -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON"
+cmake -G "NMake Makefiles" ^
+      -D CMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
+      -D CMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
+      -D CMAKE_BUILD_TYPE=Release ^
+      -D BUILD_SHARED_LIBS=ON ^
+      %SRC_DIR%
+if errorlevel 1 exit /b 1
 
-cmake -G "NMake Makefiles"
+cmake --build . --target install
+if errorlevel 1 exit /b 1
 
-:: make SuiteSparse
-nmake
-nmake install
