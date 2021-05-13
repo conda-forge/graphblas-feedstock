@@ -37,7 +37,7 @@ about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
   license: Apache-2.0
   license_family: Apache
-  license_file: Doc/License.txt
+  license_file: LICENSE
   summary: SuiteSparse:GraphBLAS is a full implementation of the GraphBLAS standard
 
 extra:
