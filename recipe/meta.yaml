@@ -9,7 +9,7 @@ source:
   sha256: dc0090cdc99b509ba54d47e22833b7adaf35af0dfcef357d8ef38e1fa4e66b65
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
 
@@ -21,11 +21,9 @@ requirements:
     - make
     - m4  # [not win]
   host:
-    - openmp  # [linux]
-    - llvm-openmp  # [osx]
+    - llvm-openmp
   run:
-    - openmp  # [linux]
-    - llvm-openmp  # [osx]
+    - llvm-openmp
 
 test:
   commands:
