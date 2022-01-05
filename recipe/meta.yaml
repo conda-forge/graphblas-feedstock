@@ -9,6 +9,7 @@ source:
   sha256: 2bb6c3a99a5ddff3e8f006043f808df3b9f725d3acb20a058991d60f5cb7e99a
 
 build:
+  skip: true  # [not linux]
   number: 0
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
