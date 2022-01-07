@@ -7,6 +7,8 @@ package:
 source:
   url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/17f431150924edacfc70d08640f239893300dbe1.tar.gz
   sha256: 029cbe3a6304c990672f593ec8ef1489b0b759fd906a5478e225a36ae5390162
+  patches:
+    - fix_windows_openmp.diff
 
 build:
   number: 0

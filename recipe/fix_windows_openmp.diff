@@ -1,0 +1,85 @@
+diff --git a/Source/Template/GB_AxB_dot4_template.c b/Source/Template/GB_AxB_dot4_template.c
+index 5ab19ce822..61f5bc32ee 100644
+--- a/Source/Template/GB_AxB_dot4_template.c
++++ b/Source/Template/GB_AxB_dot4_template.c
+@@ -588,14 +588,17 @@
+                     //----------------------------------------------------------
+ 
+                     GB_BTYPE *restrict G = W ;
+-                    #pragma omp parallel for num_threads(nthreads) \
+-                        schedule(static)
+-                    for (int64_t k = 0 ; k < vlen ; k++)
+                     {
+-                        // G (k,0:1) = B (k,j1:j1+1)
+-                        const int64_t k2 = k << 1 ;
+-                        G [k2    ] = Bx [k + (j1    ) * vlen] ;
+-                        G [k2 + 1] = Bx [k + (j1 + 1) * vlen] ;
++                        int64_t k;
++                        #pragma omp parallel for num_threads(nthreads) \
++                            schedule(static)
++                        for (k = 0 ; k < vlen ; k++)
++                        {
++                            // G (k,0:1) = B (k,j1:j1+1)
++                            const int64_t k2 = k << 1 ;
++                            G [k2    ] = Bx [k + (j1    ) * vlen] ;
++                            G [k2 + 1] = Bx [k + (j1 + 1) * vlen] ;
++                        }
+                     }
+ 
+                     //----------------------------------------------------------
+@@ -646,15 +649,18 @@
+                     //----------------------------------------------------------
+ 
+                     GB_BTYPE *restrict G = W ;
+-                    #pragma omp parallel for num_threads(nthreads) \
+-                        schedule(static)
+-                    for (int64_t k = 0 ; k < vlen ; k++)
+                     {
+-                        // G (k,0:2) = B (k,j1:j1+2)
+-                        const int64_t k3 = k * 3 ;
+-                        G [k3    ] = Bx [k + (j1    ) * vlen] ;
+-                        G [k3 + 1] = Bx [k + (j1 + 1) * vlen] ;
+-                        G [k3 + 2] = Bx [k + (j1 + 2) * vlen] ;
++                        int64_t k;
++                        #pragma omp parallel for num_threads(nthreads) \
++                            schedule(static)
++                        for (k = 0 ; k < vlen ; k++)
++                        {
++                            // G (k,0:2) = B (k,j1:j1+2)
++                            const int64_t k3 = k * 3 ;
++                            G [k3    ] = Bx [k + (j1    ) * vlen] ;
++                            G [k3 + 1] = Bx [k + (j1 + 1) * vlen] ;
++                            G [k3 + 2] = Bx [k + (j1 + 2) * vlen] ;
++                        }
+                     }
+ 
+                     //----------------------------------------------------------
+@@ -708,16 +714,19 @@
+                     //----------------------------------------------------------
+ 
+                     GB_BTYPE *restrict G = W ;
+-                    #pragma omp parallel for num_threads(nthreads) \
+-                        schedule(static)
+-                    for (int64_t k = 0 ; k < vlen ; k++)
+                     {
+-                        // G (k,0:3) = B (k,j1:j1+3)
+-                        const int64_t k4 = k << 2 ;
+-                        G [k4    ] = Bx [k + (j1    ) * vlen] ;
+-                        G [k4 + 1] = Bx [k + (j1 + 1) * vlen] ;
+-                        G [k4 + 2] = Bx [k + (j1 + 2) * vlen] ;
+-                        G [k4 + 3] = Bx [k + (j1 + 3) * vlen] ;
++                        int64_t k;
++                        #pragma omp parallel for num_threads(nthreads) \
++                            schedule(static)
++                        for (k = 0 ; k < vlen ; k++)
++                        {
++                            // G (k,0:3) = B (k,j1:j1+3)
++                            const int64_t k4 = k << 2 ;
++                            G [k4    ] = Bx [k + (j1    ) * vlen] ;
++                            G [k4 + 1] = Bx [k + (j1 + 1) * vlen] ;
++                            G [k4 + 2] = Bx [k + (j1 + 2) * vlen] ;
++                            G [k4 + 3] = Bx [k + (j1 + 3) * vlen] ;
++                        }
+                     }
+ 
+                     //----------------------------------------------------------
