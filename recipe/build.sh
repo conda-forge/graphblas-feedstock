@@ -8,7 +8,7 @@ if [[ "$OSTYPE" != "linux"* ]]; then
 fi
 
 # make SuiteSparse
-#make library VERBOSE=1 JOBS=16
-#make install VERBOSE=1
+make library VERBOSE=1 JOBS=16
+make install VERBOSE=1
 # forcibly remove the static library
 rm -f ${PREFIX}/lib/libgraphblas.a
