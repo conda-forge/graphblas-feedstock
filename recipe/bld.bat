@@ -10,6 +10,8 @@ cmake -G "NMake Makefiles" ^
       -D CMAKE_BUILD_TYPE=Release ^
       -D BUILD_SHARED_LIBS=ON ^
       -D GBNCPUFEAT=ON ^
+      -D GBAVX2=0 ^
+      -D GBAVX512F=0 ^
       %SRC_DIR%
 if errorlevel 1 exit /b 1
 
