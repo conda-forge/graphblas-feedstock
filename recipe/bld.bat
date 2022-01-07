@@ -13,6 +13,9 @@ cmake -G "NMake Makefiles" ^
       %SRC_DIR%
 if errorlevel 1 exit /b 1
 
-cmake -DGBNCPUFEAT=ON --build . --target install
+nmake
+if errorlevel 1 exit /b 1
+
+nmake install
 if errorlevel 1 exit /b 1
 
