@@ -9,6 +9,7 @@ source:
   sha256: 029cbe3a6304c990672f593ec8ef1489b0b759fd906a5478e225a36ae5390162
   patches:
     - fix_windows_openmp.diff
+    - msc_no_avx.diff
 
 build:
   skip: true  # [not win]

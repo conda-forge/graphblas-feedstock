@@ -1,0 +1,13 @@
+diff --git a/Source/GB_compiler.h b/Source/GB_compiler.h
+index 560fc93947..27207f3d12 100644
+--- a/Source/GB_compiler.h
++++ b/Source/GB_compiler.h
+@@ -261,7 +261,7 @@
+             #define GB_COMPILER_SUPPORTS_AVX2 0
+         #endif
+     #elif GB_COMPILER_ICX || GB_COMPILER_ICC || GB_COMPILER_CLANG || \
+-          GB_COMPILER_GCC || GB_COMPILER_MSC
++          GB_COMPILER_GCC
+         // all these compilers can handle AVX512F and AVX2 on x86
+         #define GB_COMPILER_SUPPORTS_AVX512F 1
+         #define GB_COMPILER_SUPPORTS_AVX2 1
