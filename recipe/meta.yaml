@@ -11,8 +11,8 @@ source:
     - fix_windows_openmp.diff
 
 build:
-  skip: true  # [not win]
-  number: 0
+  skip: true  # [win]
+  number: 1
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
 
