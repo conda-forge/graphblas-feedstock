@@ -5,8 +5,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.beta2.tar.gz
-  sha256: 7b7e9e6246fcc8cebc3021e97c64406e4f786b8875afe4b31a107e06a08a6870
+  url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.beta3.tar.gz
+  sha256: 1746ec7faf9978c9544162cf7a0ebc1ebe1e73ea738cb527ece04042e518ac7d
 
 build:
   number: 0
