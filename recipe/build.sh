@@ -7,6 +7,8 @@ if [[ "$OSTYPE" != "linux"* ]]; then
   export CMAKE_OPTIONS="-DGBNCPUFEAT=1 ${CMAKE_OPTIONS}"
 fi
 
+# Show cmake output on failures
+trap "cat $SRC_DIR/build/CMakeFiles/CMakeOutput.log $SRC_DIR/build/CMakeFiles/CMakeError.log" ERR
 # make SuiteSparse
 make library VERBOSE=1 JOBS=16
 make install VERBOSE=1
