@@ -13,7 +13,8 @@ build:
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
   ignore_run_exports_from:
-    # suitesparese config
+    # common suitesparese config fails without a fortran compiler
+    # even though it's not used
     - {{ compiler('fortran') }}
 
 requirements:
@@ -36,6 +37,9 @@ test:
     - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}  # [not win]
     - test ! -e ${PREFIX}/lib/libgraphblas.a  # [not win]
     - test -f ${PREFIX}/lib/cmake/GraphBLAS/GraphBLASConfig.cmake  # [not win]
+    - if not exist %LIBRARY_PREFIX%\include\suitesparse\GraphBLAS.h (exit 1)  # [win]
+    - if not exist %LIBRARY_PREFIX%\bin\graphblas.dll (exit 1)  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\GraphBLAS\GraphBLASConfig.cmake (exit 1)  # [win]
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
