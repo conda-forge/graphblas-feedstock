@@ -12,12 +12,16 @@ build:
   number: 0
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
+  ignore_run_exports_from:
+    # suitesparese config
+    - {{ compiler('fortran') }}
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
     - cmake
     - make
     - m4  # [not win]
