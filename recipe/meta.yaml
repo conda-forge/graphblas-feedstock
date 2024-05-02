@@ -28,9 +28,10 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/include/GraphBLAS.h  # [not win]
+    - test -f ${PREFIX}/include/suitesparse/GraphBLAS.h  # [not win]
     - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}  # [not win]
     - test ! -e ${PREFIX}/lib/libgraphblas.a  # [not win]
+    - test -f ${PREFIX}/lib/cmake/GraphBLAS/GraphBLASConfig.cmake  # [not win]
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
