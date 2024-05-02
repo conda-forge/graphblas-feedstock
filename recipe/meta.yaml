@@ -1,4 +1,4 @@
-{% set version = "8.2.1" %}
+{% set version = "9.1.0" %}
 
 package:
   name: graphblas
@@ -6,17 +6,23 @@ package:
 
 source:
   url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.tar.gz
-  sha256: a4847751f20535e229ebcba6da2f66510414f01c23702c543bf0d89b5f5e8cfa
+  sha256: f3e9c3abc5cc5a4d561f56c659c94f2d08058dc7ccdbe8cb92d8dc833b8ea6e0
 
 build:
   number: 0
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
+  ignore_run_exports_from:
+    # common suitesparese config fails without a fortran compiler
+    # even though it's not used
+    - {{ compiler('fortran') }}
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
+    - {{ compiler('fortran') }}
     - cmake
     - make
     - m4  # [not win]
@@ -27,9 +33,13 @@ requirements:
 
 test:
   commands:
-    - test -f ${PREFIX}/include/GraphBLAS.h  # [not win]
+    - test -f ${PREFIX}/include/suitesparse/GraphBLAS.h  # [not win]
     - test -f ${PREFIX}/lib/libgraphblas${SHLIB_EXT}  # [not win]
     - test ! -e ${PREFIX}/lib/libgraphblas.a  # [not win]
+    - test -f ${PREFIX}/lib/cmake/GraphBLAS/GraphBLASConfig.cmake  # [not win]
+    - if not exist %LIBRARY_PREFIX%\include\suitesparse\GraphBLAS.h (exit 1)  # [win]
+    - if not exist %LIBRARY_PREFIX%\bin\graphblas.dll (exit 1)  # [win]
+    - if not exist %LIBRARY_PREFIX%\lib\cmake\GraphBLAS\GraphBLASConfig.cmake (exit 1)  # [win]
 
 about:
   home: https://github.com/DrTimothyAldenDavis/GraphBLAS
