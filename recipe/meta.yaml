@@ -1,4 +1,4 @@
-{% set version = "10.1.1" %}
+{% set version = "10.2.0" %}
 
 package:
   name: graphblas
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.tar.gz
-  sha256: 863d8c523e7a2685524237a1e79aebbd20543f25c9116fb98a0473c396c91929
+  sha256: 2d4123c1dd0844cbb2db70955e9a55dca231e4432ea236e86dff82ea00478f64
 
 build:
   number: 0
