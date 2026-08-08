@@ -7,6 +7,10 @@ package:
 source:
   url: https://github.com/DrTimothyAldenDavis/GraphBLAS/archive/v{{ version }}.tar.gz
   sha256: 35eb416265e17870e1a7f34b38a6339bff879005504a4afe00319b2e6b3605ad
+  patches:
+    # MSVC only supports OpenMP 2.0, which requires the loop iteration
+    # variable to be declared outside of the `omp for` statement
+    - 0001-msvc-openmp-loop-var-GB_I_inverse.patch
 
 build:
   number: 0
