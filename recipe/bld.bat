@@ -12,6 +12,8 @@ cmake -G "NMake Makefiles" ^
       -D GBNCPUFEAT=ON ^
       -D GRAPHBLAS_JITINIT=2 ^
       -D SUITESPARSE_USE_FORTRAN=OFF ^
+      -D SUITESPARSE_USE_CUDA=OFF ^
+      -D SUITESPARSE_USE_OPENMP=ON ^
       -D SUITESPARSE_USE_STRICT=ON ^
       %SRC_DIR%
 if errorlevel 1 exit /b 1
