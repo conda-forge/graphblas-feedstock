@@ -9,20 +9,15 @@ source:
   sha256: f46c874da24d49a2fe005f0a23f4932e1d3c01b108e4426973f7ef48103a0b70
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("graphblas", max_pin='x.x') }}
-  ignore_run_exports_from:
-    # common suitesparese config fails without a fortran compiler
-    # even though it's not used
-    - {{ compiler('fortran') }}
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
     - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
     - cmake
     - make
     - m4  # [not win]
