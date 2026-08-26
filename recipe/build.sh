@@ -46,11 +46,12 @@ export CMAKE_ARGS="${CMAKE_ARGS} \
 # on, a missing OpenMP fails the build instead. The only other features strict
 # mode checks -- Fortran and CUDA -- are both explicitly disabled above.
 
-# linux-aarch64 and linux-ppc64le are still cross-built on linux-64, but their
-# tests do run, under emulation: .scripts/build_steps.sh only adds --no-test
-# when the host platform is non-linux. osx-arm64 was the one config that hit
-# that branch, and it builds natively now (conda-forge.yml), so the osx-64
-# cross-toolchain workaround and its native-toolchain.cmake are gone with it.
+# linux-ppc64le is the only config still cross-built (on linux-64), and its
+# tests run anyway, under emulation: .scripts/build_steps.sh only adds
+# --no-test when the host platform is non-linux. osx-arm64 was the one config
+# that ever hit that branch; it builds natively now, as does linux-aarch64
+# (conda-forge.yml), so the osx-64 cross-toolchain workaround and its
+# native-toolchain.cmake are gone with it.
 if [[ "${target_platform}" != "${build_platform}" ]]; then
   export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CROSSCOMPILING=ON"
 fi
