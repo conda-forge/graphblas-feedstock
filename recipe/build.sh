@@ -7,7 +7,6 @@ export CMAKE_ARGS="${CMAKE_ARGS} \
   -DCMAKE_BUILD_TYPE=Release \
   -DGRAPHBLAS_JITINIT=2 \
   -DCMAKE_C_COMPILER=${CC} \
-  -DCMAKE_CXX_COMPILER=${CXX} \
   -DSUITESPARSE_USE_FORTRAN=OFF \
   -DSUITESPARSE_USE_CUDA=OFF \
   -DSUITESPARSE_USE_OPENMP=ON \
@@ -16,10 +15,11 @@ export CMAKE_ARGS="${CMAKE_ARGS} \
 
 # Why each of the settings above:
 #
-# CMAKE_C_COMPILER/CMAKE_CXX_COMPILER: pin the compiler CMake uses. Without
-# this it can pick up ${PREFIX}/bin/${HOST}-cc, which the GCC toolchain
-# installs as a symlink to ${HOST}-gcc. That is how graphblas 10.5.0 came to
-# be compiled by GNU gcc 15.3.0 on osx-arm64 (`about["compiler_name"]`).
+# CMAKE_C_COMPILER: pin the compiler CMake uses. Without this it can pick up
+# ${PREFIX}/bin/${HOST}-cc, which the GCC toolchain installs as a symlink to
+# ${HOST}-gcc. That is how graphblas 10.5.0 came to be compiled by GNU gcc
+# 15.3.0 on osx-arm64 (`about["compiler_name"]`). There is no C++ compiler to
+# pin: with Fortran and CUDA off, GraphBLAS is C only.
 #
 # SUITESPARSE_USE_FORTRAN=OFF: GraphBLAS compiles no Fortran. Saying so is
 # the supported way to satisfy the common SuiteSparse config, and it lets the
@@ -48,22 +48,26 @@ export CMAKE_ARGS="${CMAKE_ARGS} \
 
 # linux-ppc64le is the only config still cross-built (on linux-64), and its
 # tests run anyway, under emulation: .scripts/build_steps.sh only adds
-# --no-test when the host platform is non-linux. osx-arm64 was the one config
-# that ever hit that branch; it builds natively now, as does linux-aarch64
+# `--test skip` when the host platform is non-linux. osx-arm64 was the one
+# config that ever hit that branch; it builds natively now, as does linux-aarch64
 # (conda-forge.yml), so the osx-64 cross-toolchain workaround and its
 # native-toolchain.cmake are gone with it.
 if [[ "${target_platform}" != "${build_platform}" ]]; then
   export CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_CROSSCOMPILING=ON"
 fi
 
-if [[ "${target_platform}" != "linux"* ]]; then
-  export CMAKE_ARGS="${CMAKE_ARGS} -DGBNCPUFEAT=1"
-fi
+# No GBNCPUFEAT on macOS anymore. It turned off Google's cpu_features (a
+# workaround from the 6.1.4 betas), which left osx-64 with no run-time
+# AVX2/AVX512F detection, so its AVX kernels were never used. The PyPI wheels
+# build cpu_features on macOS. On osx-arm64 it has nothing to detect.
 
-# Show cmake output on failures
-trap "cat $SRC_DIR/build/CMakeFiles/CMakeOutput.log $SRC_DIR/build/CMakeFiles/CMakeError.log" ERR
+# Compile in FactoryKernels that python-graphblas needs; see factory_kernels.h
+cat "${RECIPE_DIR}/factory_kernels.h" >> Source/GB_control.h
+
+# Show cmake output on failures (CMake >=3.26 writes only this log)
+trap "cat $SRC_DIR/build/CMakeFiles/CMakeConfigureLog.yaml" ERR
 # make SuiteSparse
-cmake -B build ${CMAKE_ARGS} .
+cmake -G Ninja -B build ${CMAKE_ARGS} .
 cmake --build build --verbose --parallel "${CPU_COUNT:-1}"
 cmake --install build
 
