@@ -9,6 +9,8 @@ Package license: Apache-2.0
 
 Summary: SuiteSparse:GraphBLAS is a full implementation of the GraphBLAS standard
 
+Development: https://github.com/DrTimothyAldenDavis/GraphBLAS
+
 Current build status
 ====================
 

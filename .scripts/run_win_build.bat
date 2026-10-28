@@ -41,7 +41,7 @@ if !errorlevel! neq 0 exit /b !errorlevel!
 echo Creating environment
 call "%MICROMAMBA_EXE%" create --yes --root-prefix "%MAMBA_ROOT_PREFIX%" --prefix "%MINIFORGE_HOME%" ^
     --channel conda-forge ^
-    pip python=3.14 conda-build conda-forge-ci-setup=4 "conda-build>=26.3"
+    pip rattler-build conda-forge-ci-setup=4 "conda-build>=26.3"
 if !errorlevel! neq 0 exit /b !errorlevel!
 
 echo Cleaning up micromamba
@@ -78,22 +78,22 @@ if EXIST %FEEDSTOCK_ROOT%\LICENSE.txt (
 )
 if NOT [%HOST_PLATFORM%] == [%BUILD_PLATFORM%] (
     if [%CROSSCOMPILING_EMULATOR%] == [] (
-        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --no-test"
+        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --test skip"
     )
 )
 
 if NOT [%flow_run_id%] == [] (
-        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% remote_url=%remote_url% sha=%sha%"
+        set "EXTRA_CB_OPTIONS=%EXTRA_CB_OPTIONS% --extra-meta flow_run_id=%flow_run_id% --extra-meta remote_url=%remote_url% --extra-meta sha=%sha%"
 )
 
 :: Build the recipe
 echo Building recipe
 
-conda-build.exe ^
-    "%RECIPE_ROOT%" ^
+rattler-build.exe build ^
+    --recipe "%RECIPE_ROOT%" ^
     -m %CONFIG_FILE% ^
     %EXTRA_CB_OPTIONS% ^
-    --suppress-variables
+    --target-platform %HOST_PLATFORM%
 
 if !errorlevel! neq 0 exit /b !errorlevel!
 
