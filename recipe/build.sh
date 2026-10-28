@@ -64,10 +64,19 @@ fi
 # Compile in FactoryKernels that python-graphblas needs; see factory_kernels.h
 cat "${RECIPE_DIR}/factory_kernels.h" >> Source/GB_control.h
 
+# Use CMake's default generator (Unix Makefiles), not Ninja. When
+# cross-compiling, GraphBLAS builds a native grb_jitpackage partway through the
+# build, then re-runs CMake so that libgraphblas includes the GB_JITpackage.c
+# it generates (JITpackage/CMakeLists.txt). Make picks up the re-generated
+# build files; Ninja carries on with the old build.ninja. That is how the
+# linux-ppc64le build of 10.5.2 (build 0) shipped a libgraphblas with
+# GB_JITpackage_index_get and GB_JITpackage_nfiles_get undefined, which fails
+# to load. The undefined-symbol check at the end guards against this.
+
 # Show cmake output on failures (CMake >=3.26 writes only this log)
 trap "cat $SRC_DIR/build/CMakeFiles/CMakeConfigureLog.yaml" ERR
 # make SuiteSparse
-cmake -G Ninja -B build ${CMAKE_ARGS} .
+cmake -B build ${CMAKE_ARGS} .
 cmake --build build --verbose --parallel "${CPU_COUNT:-1}"
 cmake --install build
 
@@ -98,3 +107,17 @@ if ! printf '%s\n' "${gb_syms}" | grep -qE '(^|[^A-Za-z0-9_])_{0,3}(omp_|GOMP_|k
   exit 1
 fi
 echo "OpenMP check: ${gb_lib} references an OpenMP runtime"
+
+# Every GB_/GrB_/GxB_ symbol that libgraphblas references must be defined in
+# libgraphblas itself. A shared library on Linux links fine with undefined
+# symbols and only fails when it is loaded, so this is how the 10.5.2
+# linux-ppc64le build 0 got out without its JIT package (see the note on the
+# generator above). Weak references are fine: on Linux, zstd makes its
+# GB_ZSTD_trace_* hooks weak and calls them only if they are defined.
+gb_undef=$(printf '%s\n' "${gb_syms}" | grep -vE '^[[:space:]]*[wv][[:space:]]' | grep -E '(^|[[:space:]])_?(GB|GrB|GxB)_[A-Za-z0-9_]*$' || true)
+if [[ -n "${gb_undef}" ]]; then
+  echo "ERROR: ${gb_lib} references GraphBLAS symbols it does not define:" >&2
+  printf '%s\n' "${gb_undef}" >&2
+  exit 1
+fi
+echo "Undefined-symbol check: ${gb_lib} defines every GraphBLAS symbol it references"

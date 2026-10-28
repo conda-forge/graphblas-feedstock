@@ -12,7 +12,7 @@ source:
   sha256: 1307dd9ace59f4efb1544f74c745e31886362354286226d709749dab02b0f69e
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -21,7 +21,10 @@ requirements:
     - ${{ compiler("c") }}
     - ${{ stdlib("c") }}
     - cmake
-    - ninja
+    # Not Ninja on unix: it breaks the cross-built JIT package (see build.sh)
+    - if: unix
+      then: make
+      else: ninja
   # MSVC builds use its own OpenMP runtime (vcomp140.dll, from vc14_runtime),
   # so llvm-openmp is never linked on Windows.
   host:
